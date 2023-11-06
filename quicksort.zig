@@ -1,14 +1,18 @@
 const std = @import("std");
 const RndGen = std.rand.DefaultPrng;
 
+pub fn getArrayRandomPivot(array: []i32) usize {
+    var randImpl = RndGen.init(0);
+    var pivotRandSize: usize = @intCast(array.len);
+    return @mod(randImpl.random().int(i32), pivotRandSize);
+}
+
 pub fn quicksort(array: []i32) []i32 {
     if (array.len < 2) {
         return array;
     }
 
-    var randImpl = RndGen.init(0);
-    var pivotRandSize: usize = @intCast(array.len);
-    const pivot = @mod(randImpl.random().int(i32), pivotRandSize);
+    var pivot = getArrayRandomPivot(array);
 
     const stdout = std.io.getStdOut().writer();
     try stdout.print("random: {x}\n", .{pivot});
